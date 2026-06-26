@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "company-valuation": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/company-valuation/SKILL.md",
+      "computedHash": "6304beb019c1fc63e002d06d97df35e95f972c6b4fe9ad5289ec53ffab9e0c7a"
+    },
+    "earnings-recap": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/earnings-recap/SKILL.md",
+      "computedHash": "c5817b4ae81c35ec7d489228e580d3c446f896cc86a24c5b0d420e065ed10090"
+    },
+    "estimate-analysis": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/estimate-analysis/SKILL.md",
+      "computedHash": "91e8bbd93d5531e126f2114c0070917876e2a77ecc6b1b01819ffcc27ee3af63"
+    },
+    "stock-correlation": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/stock-correlation/SKILL.md",
+      "computedHash": "dc0857647afe49cce783e3bef6a1ec593cc7ea9acc7505ff52970059bffa2b9e"
+    },
+    "stock-liquidity": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/stock-liquidity/SKILL.md",
+      "computedHash": "5ec869db71f7d79d8a76bbc4d6fa1fb712671fc6aea49c682ed52a012494140c"
+    },
+    "yfinance-data": {
+      "source": "himself65/finance-skills",
+      "sourceType": "github",
+      "skillPath": "plugins/market-analysis/skills/yfinance-data/SKILL.md",
+      "computedHash": "63f3c8c26d63c2e30d96c58230c940c2024f9d754b0d369d9fdeec5208079193"
+    }
+  }
+}
