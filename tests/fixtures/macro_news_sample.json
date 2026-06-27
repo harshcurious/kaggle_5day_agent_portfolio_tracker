@@ -1,0 +1,21 @@
+{
+  "ticker": "MSFT",
+  "articles": [
+    {
+      "title": "Regulators examine cloud software bundling practices",
+      "url": "https://example.com/regulatory-cloud-bundling",
+      "published_at": "2024-03-14",
+      "source": "Example Business News",
+      "summary": "Antitrust agencies are reviewing cloud and productivity software bundling practices across major technology firms.",
+      "topics": ["regulation", "antitrust", "cloud"]
+    },
+    {
+      "title": "Semiconductor supply chain constraints affect AI server availability",
+      "url": "https://example.com/ai-server-supply-chain",
+      "published_at": "2024-04-08",
+      "source": "Example Tech Daily",
+      "summary": "Demand for accelerators and data center components may create capacity constraints for cloud providers.",
+      "topics": ["supply chain", "AI infrastructure", "macro"]
+    }
+  ]
+}

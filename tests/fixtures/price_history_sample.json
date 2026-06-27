@@ -1,0 +1,9 @@
+{
+  "ticker": "MSFT",
+  "currency": "USD",
+  "history": [
+    {"date": "2014-01-02", "open": 37.35, "high": 37.40, "low": 37.10, "close": 37.16, "adj_close": 31.45, "volume": 30632200, "dividends": 0.0},
+    {"date": "2019-01-02", "open": 99.55, "high": 101.75, "low": 98.94, "close": 101.12, "adj_close": 95.85, "volume": 35329300, "dividends": 0.46},
+    {"date": "2024-01-02", "open": 373.86, "high": 375.90, "low": 366.77, "close": 370.87, "adj_close": 368.72, "volume": 25258600, "dividends": 0.75}
+  ]
+}

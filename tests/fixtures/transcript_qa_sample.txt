@@ -1,0 +1,11 @@
+Operator: We will now begin the question-and-answer portion of the call.
+
+Analyst: How should investors think about capital allocation between AI infrastructure spending and shareholder returns?
+
+Management: We remain disciplined. Near-term AI infrastructure investment is elevated, but we continue to evaluate buybacks and dividends against long-term growth opportunities.
+
+Analyst: Are enterprise customers delaying cloud migrations due to macro uncertainty?
+
+Management: Some optimization behavior continues, but strategic workloads are still moving to the cloud. We are monitoring demand signals carefully.
+
+Operator: This concludes today's Q&A session.

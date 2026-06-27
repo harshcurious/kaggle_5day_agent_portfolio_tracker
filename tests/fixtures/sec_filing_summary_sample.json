@@ -1,0 +1,24 @@
+{
+  "ticker": "MSFT",
+  "cik": "0000789019",
+  "filings": [
+    {
+      "form": "10-K",
+      "fiscal_year": 2023,
+      "filed_at": "2023-07-27",
+      "revenue_usd_millions": 211915,
+      "net_income_usd_millions": 72361,
+      "summary": "Cloud services and productivity software remained primary revenue drivers.",
+      "risk_factors": ["Competition in cloud infrastructure", "Regulatory scrutiny of digital markets"]
+    },
+    {
+      "form": "10-K",
+      "fiscal_year": 2022,
+      "filed_at": "2022-07-28",
+      "revenue_usd_millions": 198270,
+      "net_income_usd_millions": 72738,
+      "summary": "Revenue grew across cloud, productivity, and personal computing segments.",
+      "risk_factors": ["Foreign currency fluctuations", "Cybersecurity threats"]
+    }
+  ]
+}
