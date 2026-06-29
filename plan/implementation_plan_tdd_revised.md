@@ -122,6 +122,17 @@ For every implementation step:
 
 ---
 
+## 5.1 Additional Implementation Instructions
+
+* Use parallel subagents where work can be split safely.
+* At the end of each phase, provide a concise commit message.
+* Keep this plan's checkboxes updated as phase tasks are completed.
+* Maintain `plan/implementation/phaseXX.md` notes for each phase.
+* Each phase note must summarize completed plan steps, high-level codebase changes, additional implementation decisions, and tests created.
+* Name test files to clearly match the module under test where practical.
+
+---
+
 ## 6. Implementation Checklist
 
 ### Phase 0 — Repository Inspection, Tooling & Mocking Setup
@@ -231,10 +242,10 @@ Implement SEC 10-K extraction in `src/portfolio_tracker/tools/edgar_tools.py`.
 ### Phase 4 — Earnings Call Sentiment Tool
 Implement transcript processing in `src/portfolio_tracker/tools/transcript_tools.py`.
 
-* [ ] Implement `TranscriptAdapter` with support for optional API keys loaded from `config.py`.
-* [ ] Implement a toggle or preference for `qa_only` retrieval to filter out boilerplate corporate remarks.
-* [ ] Implement text chunking/summarization to keep transcript size bounded (under 10,000 characters).
-* [ ] Let authentication or connection exceptions propagate to the framework for retry.
+* [x] Implement `TranscriptAdapter` with support for optional API keys loaded from `config.py`.
+* [x] Implement a toggle or preference for `qa_only` retrieval to filter out boilerplate corporate remarks.
+* [x] Implement text chunking/summarization to keep transcript size bounded (under 10,000 characters).
+* [x] Let authentication or connection exceptions propagate to the framework for retry.
 
 **TDD Tests:**
 * Verify that a missing API key results in a `DataSourceStatus.SKIPPED` status with an explicit warning "EarningsCall API credentials missing".
