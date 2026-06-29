@@ -256,13 +256,13 @@ Implement transcript processing in `src/portfolio_tracker/tools/transcript_tools
 ### Phase 5 — Macro / News Grounding Tool
 Implement competitive and macroeconomic search in `src/portfolio_tracker/tools/news_tools.py`.
 
-* [ ] Implement `MacroNewsAdapter` behind a provider interface.
-* [ ] Support Google Search Grounding as the preferred live provider when available.
-* [ ] Support a mock fixture provider for offline tests and capstone demo mode.
-* [ ] Optionally support a fallback search provider if Google Search Grounding is unavailable in the local environment.
-* [ ] Define targeted search queries (e.g. `"<Ticker> antitrust litigation"`, `"<Ticker> supply chain risk"`).
-* [ ] Filter out daily stock market ticker price commentary using negative search terms (e.g., `-stock -shares -"price action"`).
-* [ ] Capture and format source URLs for final memo citations.
+* [x] Implement `MacroNewsAdapter` behind a provider interface.
+* [x] Support Google Search Grounding as the preferred live provider when available.
+* [x] Support a mock fixture provider for offline tests and capstone demo mode.
+* [x] Optionally support a fallback search provider if Google Search Grounding is unavailable in the local environment.
+* [x] Define targeted search queries (e.g. `"<Ticker> antitrust litigation"`, `"<Ticker> supply chain risk"`).
+* [x] Filter out daily stock market ticker price commentary using negative search terms (e.g., `-stock -shares -"price action"`).
+* [x] Capture and format source URLs for final memo citations.
 
 **TDD Tests:**
 * Verify search queries contain long-term risk and regulatory keywords.
