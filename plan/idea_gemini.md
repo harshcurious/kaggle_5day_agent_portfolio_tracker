@@ -154,12 +154,6 @@ step-by-step breakdown of how the data moves through the graph:
 ▼
 ```
 
-
-
-```
-
-```
-
 ### 2.3 Parallel Execution Strategy
 
 While ADK offers a `ParallelAgent` class , modern ADK 2.0 implementations often achieve better concurrency control using standard Python asynchronous programming.
@@ -496,3 +490,5 @@ Going from local prototype to a globally distributed service is automated via In
 - **Enterprise Distribution:** Finally, the `agents-cli publish gemini-enterprise` command registers the deployed agent, making it available for broader organizational use with full governance and access controls.
 
 By strictly adhering to this blueprint—leveraging the ADK 2.0 DAG, rigorous tool isolation, iterative critic loops, and the `agents-cli` deployment pipeline—SWEs can rapidly build a production-ready, highly observable Market Signal Synthesizer that fulfills all capstone requirements.
+
+

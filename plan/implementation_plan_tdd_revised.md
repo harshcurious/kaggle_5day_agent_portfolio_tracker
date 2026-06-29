@@ -125,13 +125,13 @@ For every implementation step:
 ## 6. Implementation Checklist
 
 ### Phase 0 — Repository Inspection, Tooling & Mocking Setup
-* [ ] Inspect repository structure.
-* [ ] Inspect existing Python tooling. If no `pyproject.toml` or equivalent project configuration exists, initialize one with `uv` and set up `pyproject.toml`.
-* [ ] Add core dependencies: `pytest`, `pytest-asyncio`, `pytest-mock`, `pydantic`, `python-dotenv`, `yfinance`, `pandas`.
-* [ ] Create `tests/fixtures/` and populate it with sample JSON/txt data for yfinance history, SEC filings, transcript Q&A, and news search results.
-* [ ] Write a test fixture helper that intercepts socket connections or patches HTTP requests to prevent live network calls during test execution.
-* [ ] Write a package import smoke test.
-* [ ] Add a `.env.example` file with configuration placeholders.
+* [x] Inspect repository structure.
+* [x] Inspect existing Python tooling. If no `pyproject.toml` or equivalent project configuration exists, initialize one with `uv` and set up `pyproject.toml`.
+* [x] Add core dependencies: `pytest`, `pytest-asyncio`, `pytest-mock`, `pydantic`, `python-dotenv`, `yfinance`, `pandas`.
+* [x] Create `tests/fixtures/` and populate it with sample JSON/txt data for yfinance history, SEC filings, transcript Q&A, and news search results.
+* [x] Write a test fixture helper that intercepts socket connections or patches HTTP requests to prevent live network calls during test execution.
+* [x] Write a package import smoke test.
+* [x] Add a `.env.example` file with configuration placeholders.
 
 **Acceptance Criteria:**
 * `uv run pytest` runs successfully.
@@ -143,40 +143,40 @@ For every implementation step:
 Create Pydantic models in `src/portfolio_tracker/schemas.py`.
 
 #### 1.1 Request, Status & Shared Structures
-* [ ] Define `TickerRequest` (validates ticker structure, length, uppercase).
-* [ ] Define `DataSourceStatus` (Enum: `SUCCESS`, `PARTIAL`, `FAILED`, `SKIPPED`).
-* [ ] Define `BaseVectorAnalysis` containing shared status/warning fields:
+* [x] Define `TickerRequest` (validates ticker structure, length, uppercase).
+* [x] Define `DataSourceStatus` (Enum: `SUCCESS`, `PARTIAL`, `FAILED`, `SKIPPED`).
+* [x] Define `BaseVectorAnalysis` containing shared status/warning fields:
   * `ticker: str`
   * `status: DataSourceStatus`
   * `warnings: list[str]`
   * `error_message: Optional[str] = None`
 
 #### 1.2 Vector-Specific Schemas (Inherit from `BaseVectorAnalysis`)
-* [ ] Define `PerformanceAnalysis`:
+* [x] Define `PerformanceAnalysis`:
   * `period_years: int`
   * `cagr_10yr: Optional[float] = None`
   * `max_drawdown: Optional[float] = None`
   * `dividend_consistency: Optional[str] = None`
-* [ ] Define `FundamentalAnalysis`:
+* [x] Define `FundamentalAnalysis`:
   * `filing_years: list[int]`
   * `revenue_trajectory: Optional[str] = None`
   * `debt_profile: Optional[str] = None`
   * `fundamental_red_flags: list[str] = Field(default_factory=list)`
-* [ ] Define `SentimentAnalysis`:
+* [x] Define `SentimentAnalysis`:
   * `quarter: Optional[str] = None`
   * `year: Optional[int] = None`
   * `management_confidence: str` (e.g. `High`, `Neutral`, `Low`, `Unknown`)
   * `capital_allocation_plans: list[str] = Field(default_factory=list)`
   * `analyst_concerns: list[str] = Field(default_factory=list)`
-* [ ] Define `MacroAnalysis`:
+* [x] Define `MacroAnalysis`:
   * `regulatory_environment: Optional[str] = None`
   * `macro_headwinds: list[str] = Field(default_factory=list)`
   * `competitive_shifts: list[str] = Field(default_factory=list)`
   * `source_urls: list[str] = Field(default_factory=list)`
 
 #### 1.3 Synthesis, Aggregator & Critic Schemas
-* [ ] Define `SynthesizerInput` (Aggregated structure combining the outputs of all 4 vectors, used to feed the CIO Agent deterministically).
-* [ ] Define `InvestmentMemo`:
+* [x] Define `SynthesizerInput` (Aggregated structure combining the outputs of all 4 vectors, used to feed the CIO Agent deterministically).
+* [x] Define `InvestmentMemo`:
   * `ticker: str`
   * `recommendation_summary: str`
   * `long_term_thesis: str`
@@ -185,7 +185,7 @@ Create Pydantic models in `src/portfolio_tracker/schemas.py`.
   * `data_gaps: list[str] = Field(default_factory=list)`
   * `not_investment_advice_disclaimer: str`
   * `revision_count: int`
-* [ ] Define `CriticResult`:
+* [x] Define `CriticResult`:
   * `passed: bool`
   * `feedback: list[str] = Field(default_factory=list)`
   * `failed_checks: list[str] = Field(default_factory=list)`
@@ -200,10 +200,10 @@ Create Pydantic models in `src/portfolio_tracker/schemas.py`.
 ### Phase 2 — Performance Data Tool
 Implement the yfinance-backed quantitative metrics tool in `src/portfolio_tracker/tools/yfinance_tools.py`.
 
-* [ ] Implement quantitative helper functions to calculate CAGR and max drawdown from a price Series (no LLM involved).
-* [ ] Wrap yfinance API calls behind an adapter class `YFinanceAdapter`.
-* [ ] Ensure transient HTTP/network exceptions propagate up to allow ADK retries.
-* [ ] Implement tool-level validation: if data is returned empty or truncated, return a structured warning.
+* [x] Implement quantitative helper functions to calculate CAGR and max drawdown from a price Series (no LLM involved).
+* [x] Wrap yfinance API calls behind an adapter class `YFinanceAdapter`.
+* [x] Ensure transient HTTP/network exceptions propagate up to allow ADK retries.
+* [x] Implement tool-level validation: if data is returned empty or truncated, return a structured warning.
 
 **TDD Tests:**
 * Mock yfinance history call with a 10-year stable/rising price fixture and assert CAGR calculation is mathematically correct.
