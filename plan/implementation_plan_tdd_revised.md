@@ -273,10 +273,10 @@ Implement competitive and macroeconomic search in `src/portfolio_tracker/tools/n
 ### Phase 6 — Agent Prompt and Node Wrapper Layer
 Define the prompts in `src/portfolio_tracker/prompts.py` and wrap agents in `src/portfolio_tracker/agents/`.
 
-* [ ] Implement LLM Agents for the 4 data vectors using `gemini-2.5-flash`.
-* [ ] Write strict instructions directing the sub-agents to output strictly schema-bound JSON corresponding to their respective `Analysis` schemas.
-* [ ] Write the CIO Agent instruction (requires `gemini-1.5-pro` for deep reasoning) focusing on long-term capital preservation, risk identification, and data gaps.
-* [ ] Write the Critic Agent instruction (using `gemini-2.5-flash`) checking against short-term speculation, guaranteed returns, and grounding correctness.
+* [x] Implement LLM Agents for the 4 data vectors using `gemini-2.5-flash`.
+* [x] Write strict instructions directing the sub-agents to output strictly schema-bound JSON corresponding to their respective `Analysis` schemas.
+* [x] Write the CIO Agent instruction (uses `gemini-2.5-pro` for deep reasoning) focusing on long-term capital preservation, risk identification, and data gaps.
+* [x] Write the Critic Agent instruction (using `gemini-2.5-flash`) checking against short-term speculation, guaranteed returns, and grounding correctness.
 
 **TDD Tests:**
 * Verify prompts contain explicit constraints: no price targets, no short-term speculation, explicit inclusion of risk sections and the disclaimer.
