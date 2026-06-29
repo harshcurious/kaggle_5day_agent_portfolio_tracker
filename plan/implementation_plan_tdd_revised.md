@@ -215,11 +215,11 @@ Implement the yfinance-backed quantitative metrics tool in `src/portfolio_tracke
 ### Phase 3 — Fundamental Data Tool
 Implement SEC 10-K extraction in `src/portfolio_tracker/tools/edgar_tools.py`.
 
-* [ ] Implement `EdgarAdapter` to query filings using `edgartools`.
-* [ ] Map ticker symbols to CIK and query the 3 most recent 10-Ks.
-* [ ] Implement programmatic extraction of MD&A (Item 7) and Financial Statements (Item 8) summaries.
-* [ ] Keep raw text length bounded: extract key financial metrics and summary paragraphs, rather than dumping full chapters to prompt context.
-* [ ] Ensure Rate Limit errors or temporary SEC blocks propagate to trigger retries.
+* [x] Implement `EdgarAdapter` to query filings using `edgartools`.
+* [x] Map ticker symbols to CIK and query the 3 most recent 10-Ks.
+* [x] Implement programmatic extraction of MD&A (Item 7) and Financial Statements (Item 8) summaries.
+* [x] Keep raw text length bounded: extract key financial metrics and summary paragraphs, rather than dumping full chapters to prompt context.
+* [x] Ensure Rate Limit errors or temporary SEC blocks propagate to trigger retries.
 
 **TDD Tests:**
 * Mock `edgartools` responses using standard 10-K fixtures.

@@ -5,6 +5,7 @@ description = "Market signal synthesizer for long-term portfolio research."
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+    "edgartools",
     "pandas",
     "pydantic",
     "python-dotenv",

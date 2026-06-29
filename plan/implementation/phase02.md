@@ -11,8 +11,19 @@
 ## Codebase changes
 
 - Added `src/portfolio_tracker/tools/yfinance_tools.py`.
-- Added `tests/unit/test_performance_tools.py`.
+- Added `tests/unit/test_yfinance_tools.py`.
 - Updated the revised implementation plan checkboxes for completed Phase 2 items.
+
+## Tests created
+
+- `tests/unit/test_yfinance_tools.py`
+  - `test_calculate_cagr_from_adjusted_close_series`
+  - `test_calculate_max_drawdown_from_price_drop_series`
+  - `test_analyze_performance_uses_adapter_history_and_dividends`
+  - `test_analyze_performance_defaults_safely_when_dividends_missing`
+  - `test_analyze_performance_returns_partial_warning_for_empty_history`
+  - `test_analyze_performance_returns_partial_warning_for_truncated_history`
+  - `test_adapter_does_not_mask_yfinance_exceptions`
 
 ## Additional decisions
 

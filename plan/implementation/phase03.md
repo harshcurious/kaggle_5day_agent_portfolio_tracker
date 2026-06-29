@@ -2,22 +2,38 @@
 
 ## Completed plan steps
 
-- No Phase 3 implementation steps have been completed yet.
+- Implemented `EdgarAdapter` to query recent 10-K filings through EdgarTools.
+- Mapped ticker symbols through the EdgarTools company object and exposed the company CIK in adapter results.
+- Queried the 3 most recent 10-K filings by default.
+- Implemented bounded Item 7 / Item 8 context extraction.
+- Kept extracted filing context under the configured character limit.
+- Ensured provider exceptions such as temporary SEC blocks propagate instead of being swallowed.
+- Added tests for mocked 10-K responses, bounded extraction, missing filings, CIK exposure, 3-filing limiting, and exception propagation.
 
 ## Codebase changes
 
-- No Phase 3 code changes have been made yet.
-- `src/portfolio_tracker/tools/edgar_tools.py` has not been created yet.
-- `tests/unit/test_fundamental_tools.py` has not been created yet.
+- Added `src/portfolio_tracker/tools/edgar_tools.py`.
+- Added `tests/unit/test_edgar_tools.py`.
+- Added `edgartools` to project dependencies.
+- Updated the revised implementation plan checkboxes for completed Phase 3 items.
+
+## Tests created
+
+- `tests/unit/test_edgar_tools.py`
+  - `test_summarize_fundamentals_uses_mocked_10k_fixture`
+  - `test_extract_bounded_filing_context_keeps_text_under_limit`
+  - `test_summarize_fundamentals_missing_filings_returns_partial_warning`
+  - `test_adapter_queries_three_recent_10ks_and_exposes_cik`
+  - `test_adapter_does_not_mask_sec_provider_exceptions`
 
 ## Additional decisions
 
-- No additional Phase 3 implementation decisions have been made yet.
+- The production adapter imports `edgar.Company` lazily so tests can use fake providers without importing or contacting SEC services.
+- Missing filings return `DataSourceStatus.PARTIAL` with a structured warning and empty `filing_years`.
+- Filing context extraction prefers Item 7 and Item 8 sections and falls back to bounded full text if those labels are unavailable.
+- Fundamental summaries are deterministic and lightweight: revenue/debt fields are extracted from matching sentences, and risk flags are parsed from explicit `Risk factors:` phrases when available.
+- No automatic SEC identity setup was added in this phase; identity/config handling remains a later configuration concern.
 
-## Planned next steps
+## Commit message
 
-- Implement `EdgarAdapter` behind a testable provider boundary.
-- Add mocked filing fixtures and unit tests before implementation.
-- Keep extracted SEC context bounded under 15,000 characters.
-- Return `DataSourceStatus.PARTIAL` with warnings for missing filings.
-- Let SEC rate-limit and temporary provider failures propagate for future ADK retry handling.
+`feat: add Edgar fundamentals analysis tool`
