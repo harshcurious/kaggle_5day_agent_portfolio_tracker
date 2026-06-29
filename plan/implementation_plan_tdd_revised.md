@@ -287,8 +287,8 @@ Define the prompts in `src/portfolio_tracker/prompts.py` and wrap agents in `src
 ### Phase 7 — Workflow Orchestration (Fan-Out & Join Node)
 Implement graph assembly in `src/portfolio_tracker/workflow.py`.
 
-* [ ] Define the ADK `Workflow` class instance.
-* [ ] **Critical Failsafe Node Wrappers:** Wrap the Performance, Fundamental, Sentiment, and Macro agents in a node function that catches final data/provider exceptions and yields a failsafe event. Do not swallow framework control-flow exceptions such as cancellation or human-in-the-loop interruption:
+* [x] Define the ADK `Workflow` class instance.
+* [x] **Critical Failsafe Node Wrappers:** Wrap the Performance, Fundamental, Sentiment, and Macro agents in a node function that catches final data/provider exceptions and yields a failsafe event. Do not swallow framework control-flow exceptions such as cancellation or human-in-the-loop interruption:
   ```python
   import asyncio
 
@@ -316,19 +316,19 @@ Implement graph assembly in `src/portfolio_tracker/workflow.py`.
               )
           )
   ```
-* [ ] Define the `JoinNode` to collect outputs:
+* [x] Define the `JoinNode` to collect outputs:
   ```python
   from google.adk.workflow import JoinNode
   collector = JoinNode(name="collector")
   ```
-* [ ] **Deterministic Aggregator Node:** Implement a function node after `JoinNode` to parse the merged results and construct the `SynthesizerInput` model.
+* [x] **Deterministic Aggregator Node:** Implement a function node after `JoinNode` to parse the merged results and construct the `SynthesizerInput` model.
   ```python
   def aggregate_outputs(node_input: dict) -> Event:
       # node_input is the collection of events from collector
       # Extract each vector, validate and build SynthesizerInput
       return Event(output=synthesizer_input)
   ```
-* [ ] Set up the execution edges:
+* [x] Set up the execution edges:
   ```python
   edges = [
       ("START", validate_request),
