@@ -359,14 +359,14 @@ Implement graph assembly in `src/portfolio_tracker/workflow.py`.
 ---
 
 ### Phase 9 — Critic Guardrail Loop
-* [ ] Implement deterministic Python rules checking the `InvestmentMemo` content *before* invoking the LLM Critic:
+* [x] Implement deterministic Python rules checking the `InvestmentMemo` content *before* invoking the LLM Critic:
   * Check for the presence of the word "disclaimer" or the required disclosure text.
   * Check that `key_risks` is not empty.
   * Check for prohibited speculatory terms (e.g. "guaranteed return", "no risk").
-* [ ] If deterministic checks fail, route directly back to the CIO Agent with specific feedback without invoking the LLM Critic, saving tokens.
-* [ ] If deterministic checks pass, invoke the LLM Critic Agent to verify factual grounding.
-* [ ] Implement a bounded counter in `ToolContext.state["revision_count"]`. Limit retries to a maximum of 2 iterations.
-* [ ] If the memo fails after 2 iterations, return the best-effort memo with a visible header warning about failed guardrails.
+* [x] If deterministic checks fail, route directly back to the CIO Agent with specific feedback without invoking the LLM Critic, saving tokens.
+* [x] If deterministic checks pass, invoke the LLM Critic Agent to verify factual grounding.
+* [x] Implement a bounded counter in `ToolContext.state["revision_count"]`. Limit retries to a maximum of 2 iterations.
+* [x] If the memo fails after 2 iterations, return the best-effort memo with a visible header warning about failed guardrails.
 
 **TDD Tests:**
 * Test memo containing prohibited speculatory language and verify it is rejected and routed back to the CIO Agent.

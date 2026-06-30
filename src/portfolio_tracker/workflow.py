@@ -9,6 +9,7 @@ from typing import Any, TypeVar
 
 from portfolio_tracker.schemas import (
     BaseVectorAnalysis,
+    CriticResult,
     DataSourceStatus,
     FundamentalAnalysis,
     InvestmentMemo,
@@ -23,6 +24,8 @@ from portfolio_tracker.schemas import (
 VectorT = TypeVar("VectorT", bound=BaseVectorAnalysis)
 VectorNode = Callable[[dict[str, str]], Awaitable[VectorT] | VectorT]
 CioAgent = Any
+CriticAgent = Any
+PROHIBITED_SPECULATIVE_TERMS = ("guaranteed return", "no risk")
 
 
 class NodeInterruptedError(Exception):
@@ -196,6 +199,69 @@ async def cio_synthesis_node(synthesizer_input: SynthesizerInput, *, agent: CioA
     return Event(output=memo.model_copy(update={"data_gaps": enforced_gaps}))
 
 
+async def run_critic_guardrail_loop(
+    memo: InvestmentMemo,
+    *,
+    cio_agent: CioAgent,
+    critic_agent: CriticAgent,
+    max_revisions: int = 2,
+) -> Event:
+    """Apply deterministic guardrails, then bounded LLM critic review."""
+
+    current = memo
+    while True:
+        deterministic = deterministic_memo_checks(current)
+        if deterministic.failed_checks:
+            if current.revision_count >= max_revisions:
+                return Event(output=_memo_with_guardrail_warning(current))
+            current = await _request_cio_revision(current, deterministic, cio_agent=cio_agent)
+            continue
+
+        critic_result = await _run_agent(critic_agent, {"memo": current.model_dump(mode="json")})
+        critic_result = CriticResult.model_validate(critic_result)
+        if critic_result.passed:
+            return Event(output=current)
+        if current.revision_count >= max_revisions:
+            return Event(output=_memo_with_guardrail_warning(current))
+        current = await _request_cio_revision(current, critic_result, cio_agent=cio_agent)
+
+
+def deterministic_memo_checks(memo: InvestmentMemo) -> CriticResult:
+    """Run cheap Python memo checks before spending critic tokens."""
+
+    feedback: list[str] = []
+    failed_checks: list[str] = []
+    disclaimer_text = memo.not_investment_advice_disclaimer.lower()
+    combined_text = "\n".join(
+        [
+            memo.recommendation_summary,
+            memo.long_term_thesis,
+            memo.not_investment_advice_disclaimer,
+            *memo.key_risks,
+        ]
+    ).lower()
+
+    if "disclaimer" not in disclaimer_text and "not investment advice" not in disclaimer_text:
+        feedback.append("Add the required investment advice disclaimer.")
+        failed_checks.append("disclaimer")
+
+    if not memo.key_risks:
+        feedback.append("Add at least one concrete key risk.")
+        failed_checks.append("key_risks")
+
+    for term in PROHIBITED_SPECULATIVE_TERMS:
+        if term in combined_text:
+            feedback.append(f"Remove prohibited speculative language: {term}")
+            failed_checks.append(f"prohibited_language:{term}")
+
+    return CriticResult(
+        passed=not failed_checks,
+        feedback=feedback,
+        failed_checks=failed_checks,
+        grounding_score=1.0 if not failed_checks else 0.0,
+    )
+
+
 def _event_output(value: Event | BaseVectorAnalysis) -> Any:
     if isinstance(value, Event):
         return value.output
@@ -241,3 +307,30 @@ def _merge_unique(existing: list[str], required: list[str]) -> list[str]:
         if item not in merged:
             merged.append(item)
     return merged
+
+
+async def _request_cio_revision(memo: InvestmentMemo, feedback: CriticResult, *, cio_agent: CioAgent) -> InvestmentMemo:
+    revised = await _run_agent(
+        cio_agent,
+        {
+            "memo": memo.model_dump(mode="json"),
+            "feedback": feedback.feedback,
+            "failed_checks": feedback.failed_checks,
+            "revision_count": memo.revision_count + 1,
+        },
+    )
+    return InvestmentMemo.model_validate(revised).model_copy(update={"revision_count": memo.revision_count + 1})
+
+
+async def _run_agent(agent: Any, input_payload: dict[str, Any]) -> Any:
+    result = agent.run(input_payload)
+    if isinstance(result, Awaitable):
+        return await result
+    return result
+
+
+def _memo_with_guardrail_warning(memo: InvestmentMemo) -> InvestmentMemo:
+    prefix = "GUARDRAIL WARNING: Failed guardrails after maximum revisions. "
+    if memo.recommendation_summary.startswith(prefix):
+        return memo
+    return memo.model_copy(update={"recommendation_summary": f"{prefix}{memo.recommendation_summary}"})
