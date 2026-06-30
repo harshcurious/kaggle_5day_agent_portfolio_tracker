@@ -378,10 +378,10 @@ Implement graph assembly in `src/portfolio_tracker/workflow.py`.
 ### Phase 10 — CLI Demo Entrypoint
 Implement the command line interface in `src/portfolio_tracker/cli.py`.
 
-* [ ] Set up commands using `click` or `argparse`.
-* [ ] Support a mock execution flag (`--mock` or `--fixture`) to run the workflow offline using local JSON fixtures, allowing reviewers to test without live API credentials.
-* [ ] Support formats: standard markdown memo and raw JSON output.
-* [ ] Route warnings and data gaps clearly to `stderr` or as a front-matter alert block in markdown.
+* [x] Set up commands using `click` or `argparse`.
+* [x] Support a mock execution flag (`--mock` or `--fixture`) to run the workflow offline using local JSON fixtures, allowing reviewers to test without live API credentials.
+* [x] Support formats: standard markdown memo and raw JSON output.
+* [x] Route warnings and data gaps clearly to `stderr` or as a front-matter alert block in markdown.
 
 **TDD Tests:**
 * Test that running the CLI with an invalid ticker code returns a non-zero exit code.

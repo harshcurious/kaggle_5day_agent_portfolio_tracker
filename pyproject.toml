@@ -12,6 +12,9 @@ dependencies = [
     "yfinance",
 ]
 
+[project.scripts]
+portfolio-tracker = "portfolio_tracker.cli:main"
+
 [dependency-groups]
 dev = [
     "pytest",
