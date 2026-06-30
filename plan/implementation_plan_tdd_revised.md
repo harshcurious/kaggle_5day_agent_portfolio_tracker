@@ -348,9 +348,9 @@ Implement graph assembly in `src/portfolio_tracker/workflow.py`.
 ---
 
 ### Phase 8 — CIO Synthesis Node
-* [ ] Pass the aggregated `SynthesizerInput` from the `AggregatorNode` into the CIO Agent's prompt context.
-* [ ] Direct the CIO Agent to produce an `InvestmentMemo` Pydantic model.
-* [ ] Ensure any vector with a `FAILED` or `PARTIAL` status is explicitly flagged in the `data_gaps` list of the final memo.
+* [x] Pass the aggregated `SynthesizerInput` from the `AggregatorNode` into the CIO Agent's prompt context.
+* [x] Direct the CIO Agent to produce an `InvestmentMemo` Pydantic model.
+* [x] Ensure any vector with a `FAILED` or `PARTIAL` status is explicitly flagged in the `data_gaps` list of the final memo.
 
 **TDD Tests:**
 * Verify that if a data vector failed (e.g. Sentiment), the generated investment memo lists "Sentiment data unavailable" in the `data_gaps` section.

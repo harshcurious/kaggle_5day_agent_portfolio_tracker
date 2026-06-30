@@ -11,6 +11,7 @@ from portfolio_tracker.schemas import (
     BaseVectorAnalysis,
     DataSourceStatus,
     FundamentalAnalysis,
+    InvestmentMemo,
     MacroAnalysis,
     PerformanceAnalysis,
     SentimentAnalysis,
@@ -21,6 +22,7 @@ from portfolio_tracker.schemas import (
 
 VectorT = TypeVar("VectorT", bound=BaseVectorAnalysis)
 VectorNode = Callable[[dict[str, str]], Awaitable[VectorT] | VectorT]
+CioAgent = Any
 
 
 class NodeInterruptedError(Exception):
@@ -181,6 +183,19 @@ def build_workflow(
     )
 
 
+async def cio_synthesis_node(synthesizer_input: SynthesizerInput, *, agent: CioAgent) -> Event:
+    """Run CIO synthesis and enforce deterministic data-gap disclosures."""
+
+    payload = synthesizer_input.model_dump(mode="json")
+    result = agent.run(payload)
+    if isinstance(result, Awaitable):
+        result = await result
+
+    memo = InvestmentMemo.model_validate(result)
+    enforced_gaps = _merge_unique(memo.data_gaps, _vector_data_gaps(synthesizer_input))
+    return Event(output=memo.model_copy(update={"data_gaps": enforced_gaps}))
+
+
 def _event_output(value: Event | BaseVectorAnalysis) -> Any:
     if isinstance(value, Event):
         return value.output
@@ -194,3 +209,35 @@ def _first_vector_ticker(vectors: Mapping[str, Any]) -> str:
         if isinstance(vector, Mapping) and "ticker" in vector:
             return str(vector["ticker"])
     raise ValueError("cannot infer ticker from collected events")
+
+
+def _vector_data_gaps(synthesizer_input: SynthesizerInput) -> list[str]:
+    return [
+        gap
+        for label, vector in (
+            ("Performance", synthesizer_input.performance),
+            ("Fundamental", synthesizer_input.fundamentals),
+            ("Sentiment", synthesizer_input.sentiment),
+            ("Macro", synthesizer_input.macro),
+        )
+        if (gap := _data_gap_for_vector(label, vector))
+    ]
+
+
+def _data_gap_for_vector(label: str, vector: BaseVectorAnalysis) -> str | None:
+    if vector.status is DataSourceStatus.SUCCESS:
+        return None
+
+    reason = vector.error_message or "; ".join(vector.warnings)
+    suffix = f": {reason}" if reason else ""
+    if vector.status is DataSourceStatus.PARTIAL:
+        return f"{label} data partially available{suffix}"
+    return f"{label} data unavailable{suffix}"
+
+
+def _merge_unique(existing: list[str], required: list[str]) -> list[str]:
+    merged: list[str] = []
+    for item in [*existing, *required]:
+        if item not in merged:
+            merged.append(item)
+    return merged
